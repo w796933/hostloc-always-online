@@ -1,4 +1,4 @@
-FROM python:2.7
+FROM alpine
 
 MAINTAINER IV8<admin@256.cloud>
 
@@ -7,9 +7,10 @@ ENV UID=uid\
  SMIN=300\
  SMAX=600
 
-RUN apt-get -y -qq update &&\
+RUN apk --no-cache add python python-dev &&\
+ apk --no-cache add --virtual py-pip &&\
  pip install --upgrade pip &&  pip install requests BeautifulSoup beautifulsoup4 &&\
- mkdir /root/hostloc
+ mkdir /root/hostloc && rm -rf ~/.cache
 
 COPY run.py /root/hostloc/run.py
 
