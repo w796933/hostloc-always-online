@@ -7,12 +7,12 @@ ENV UID=uid\
  SMIN=300\
  SMAX=600
 
-RUN apk --no-cache add python python-dev &&\
- apk --no-cache add --virtual py-pip &&\
- pip install --upgrade pip &&  pip install requests BeautifulSoup beautifulsoup4 &&\
- mkdir /root/hostloc && rm -rf ~/.cache
-
 COPY run.py /root/hostloc/run.py
+
+RUN apk --no-cache add python &&\
+ apk --no-cache add --virtual .build-deps py-pip &&\
+ pip install --upgrade pip &&  pip install requests BeautifulSoup beautifulsoup4 &&\
+ apk del .build-deps && rm -rf ~/.cache /tmp
 
 WORKDIR /root/hostloc
 
